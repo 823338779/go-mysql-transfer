@@ -84,6 +84,7 @@ func (s *TransferService) initialize() error {
 	// endpoint
 	endpoint := endpoint.NewEndpoint(s.canal)
 	if err := endpoint.Connect(); err != nil {
+		println(errors.ErrorStack(err))
 		return errors.Trace(err)
 	}
 	// 异步，必须要ping下才能确定连接成功

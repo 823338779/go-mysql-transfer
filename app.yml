@@ -1,8 +1,8 @@
 # mysql配置
 addr: 127.0.0.1:3306
 user: root
-pass: root
-charset : utf8
+pass: 1231
+charset : utf8mb4
 slave_id: 1001 #slave ID
 flavor: mysql #mysql or mariadb,默认mysql
 
@@ -19,7 +19,7 @@ flavor: mysql #mysql or mariadb,默认mysql
 #exporter_addr: 9595 #prometheus exporter端口，默认9595
 
 #web admin相关配置
-enable_web_admin: true #是否启用web admin，默认false
+enable_web_admin: false #是否启用web admin，默认false
 web_admin_port: 8060 #web监控端口,默认8060
 
 #cluster: # 集群相关配置
@@ -33,10 +33,10 @@ web_admin_port: 8060 #web监控端口,默认8060
   #etcd_password: 123456 #etcd密码
 
 #目标类型
-target: redis # 支持redis、mongodb、elasticsearch、rocketmq、kafka、rabbitmq
+target: elasticsearch # 支持redis、mongodb、elasticsearch、rocketmq、kafka、rabbitmq
 
 #redis连接配置
-redis_addrs: 127.0.0.1:6379 #redis地址，多个用逗号分隔
+#redis_addrs: 127.0.0.1:6379 #redis地址，多个用逗号分隔
 #redis_group_type: cluster   # 集群类型 sentinel或者cluster
 #redis_master_name: mymaster # Master节点名称,如果group_type为sentinel则此项不能为空，为cluster此项无效
 #redis_pass: 123456 #redis密码
@@ -48,8 +48,8 @@ redis_addrs: 127.0.0.1:6379 #redis地址，多个用逗号分隔
 #mongodb_password: #mongodb密码，默认为空
 
 #elasticsearch连接配置
-#es_addrs: 127.0.0.1:9200 #连接地址，多个用逗号分隔
-#es_version: 7 # Elasticsearch版本，支持6和7、默认为7
+es_addrs: 127.0.0.1:9200 #连接地址，多个用逗号分隔
+es_version: 7 # Elasticsearch版本，支持6和7、默认为7
 #es_password:  # 用户名
 #es_version:  # 密码
 
@@ -71,8 +71,8 @@ redis_addrs: 127.0.0.1:6379 #redis地址，多个用逗号分隔
 #规则配置
 rule:
   -
-    schema: eseap #数据库名称
-    table: t_user #表名称
+    schema: self_harmony #数据库名称
+    table: cjl_table #表名称
     #order_by_column: id #排序字段，存量数据同步时不能为空
     #column_lower_case:false #列名称转为小写,默认为false
     #column_upper_case:false#列名称转为大写,默认为false
@@ -104,7 +104,7 @@ rule:
     #mongodb_collection: transfer_test_topic #mongodb collection，可以为空，默认使用表名称
 
     #elasticsearch相关
-    #es_index: user_index #Index名称,可以为空，默认使用表(Table)名称
+#    es_index: user_index #Index名称,可以为空，默认使用表(Table)名称
     #es_mappings: #索引映射，可以为空，为空时根据数据类型自行推导ES推导
     #  -
     #    column: REMARK #数据库列名称

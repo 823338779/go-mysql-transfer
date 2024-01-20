@@ -19,11 +19,12 @@ package endpoint
 
 import (
 	"bytes"
+	"encoding/json"
 	"strconv"
 	"strings"
 	"time"
 
-	jsoniter "github.com/json-iterator/go"
+	//jsoniter "github.com/json-iterator/go"
 	"github.com/siddontang/go-mysql/canal"
 	"github.com/siddontang/go-mysql/mysql"
 	"github.com/siddontang/go-mysql/schema"
@@ -35,7 +36,7 @@ import (
 	"go-mysql-transfer/util/stringutil"
 )
 
-var json = jsoniter.ConfigCompatibleWithStandardLibrary
+//var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 const defaultDateFormatter = "2006-01-02"
 

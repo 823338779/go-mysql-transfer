@@ -56,6 +56,7 @@ func (s *Elastic7Endpoint) Connect() error {
 	var options []elastic.ClientOptionFunc
 	options = append(options, elastic.SetErrorLog(logagent.NewElsLoggerAgent()))
 	options = append(options, elastic.SetURL(s.hosts...))
+	options = append(options, elastic.SetSniff(false))
 	if global.Cfg().ElsUser != "" && global.Cfg().ElsPassword != "" {
 		options = append(options, elastic.SetBasicAuth(global.Cfg().ElsUser, global.Cfg().Password))
 	}
@@ -122,7 +123,7 @@ func (s *Elastic7Endpoint) updateIndexMapping(rule *global.Rule) error {
 		return err
 	}
 
-	if ret[rule.ElsIndex]==nil{
+	if ret[rule.ElsIndex] == nil {
 		return nil
 	}
 	retIndex := ret[rule.ElsIndex].(map[string]interface{})
