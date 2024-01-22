@@ -54,43 +54,50 @@ func init() {
 	flag.Usage = usage
 }
 
-func main() {
+func doAsFlags() bool {
 	flag.Parse()
 	if helpFlag {
 		flag.Usage()
-		return
+		return true
 	}
 
 	// 初始化global
 	err := global.Initialize(cfgPath)
 	if err != nil {
 		println(errors.ErrorStack(err))
-		return
+		return true
 	}
 
 	if stockFlag {
 		doStock()
-		return
+		return true
 	}
 
 	// 初始化Storage
 	err = storage.Initialize()
 	if err != nil {
 		println(errors.ErrorStack(err))
-		return
+		return true
 	}
 
 	if statusFlag {
 		doStatus()
-		return
+		return true
 	}
 
 	if positionFlag {
 		doPosition()
+		return true
+	}
+	return false
+}
+
+func main() {
+	if doAsFlags() {
 		return
 	}
 
-	err = service.Initialize()
+	err := service.Initialize()
 	if err != nil {
 		println(errors.ErrorStack(err))
 		return

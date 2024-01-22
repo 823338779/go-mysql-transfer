@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  es7:
+    image: elasticsearch:7.17.16
+    container_name: es7
+    environment:
+      - node.name=es7
+      - cluster.name=es7
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - /Users/bytedance/docker/es7/data:/usr/share/elasticsearch/data
+      - /Users/bytedance/docker/es7/logs:/usr/share/elasticsearch/logs
+      - /Users/bytedance/docker/es7/plugins:/usr/share/elasticsearch/plugins
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - demo
+  kibana:
+    image: kibana:7.17.16
+    container_name: kibana7
+    depends_on:
+      - es7 #kibana在elasticsearch启动之后再启动
+    environment:
+      SERVER_NAME: kibana.example.org
+      ELASTICSEARCH_HOSTS: http://es7:9200 #设置访问elasticsearch的地址
+    ports:
+      - "5601:5601"
+    networks:
+      - demo
+  mysql:
+    image: mysql
+    container_name: mysql
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1231
+    networks:
+      - demo
+
+networks:
+  demo:
+    driver: bridge

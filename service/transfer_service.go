@@ -114,6 +114,7 @@ func (s *TransferService) run() error {
 	go func(p mysql.Position) {
 		s.canalEnable.Store(true)
 		log.Println(fmt.Sprintf("transfer run from position(%s %d)", p.Name, p.Pos))
+		// 调用开始
 		if err := s.canal.RunFrom(p); err != nil {
 			log.Println(fmt.Sprintf("start transfer : %v", err))
 			logs.Errorf("canal : %v", errors.ErrorStack(err))
@@ -136,9 +137,10 @@ func (s *TransferService) run() error {
 
 func (s *TransferService) StartUp() {
 	s.lockOfCanal.Lock()
+	// 代码延迟一个堆栈做解锁
 	defer s.lockOfCanal.Unlock()
 
-	if s.firstsStart.Load() {
+	if s.firstsStart.Load() { // 原子类型的bool读取
 		s.canalHandler = newHandler()
 		s.canal.SetEventHandler(s.canalHandler)
 		s.canalHandler.startListener()
